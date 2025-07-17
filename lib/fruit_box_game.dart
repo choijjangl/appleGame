@@ -12,11 +12,13 @@ class FruitBoxGame extends StatefulWidget {
 }
 
 class _FruitBoxGameState extends State<FruitBoxGame> {
-  late Timer _timer;
+  Timer? _timer;
   double fruitX = 0.5;
   double fruitY = 0.0;
   double boxX = 0.5;
   int score = 0;
+  bool isPlaying = false;
+  bool gameOver = false;
 
   static const double fruitStep = 0.02;
 
@@ -24,6 +26,15 @@ class _FruitBoxGameState extends State<FruitBoxGame> {
   void initState() {
     super.initState();
     _resetFruit();
+  }
+
+  void _startGame() {
+    score = 0;
+    boxX = 0.5;
+    _resetFruit();
+    isPlaying = true;
+    gameOver = false;
+    _timer?.cancel();
     _timer = Timer.periodic(const Duration(milliseconds: 50), (_) => _update());
   }
 
@@ -39,15 +50,19 @@ class _FruitBoxGameState extends State<FruitBoxGame> {
       if (fruitY >= 1.0) {
         if ((fruitX - boxX).abs() < 0.1) {
           score += 1;
+          _resetFruit();
+        } else {
+          isPlaying = false;
+          gameOver = true;
+          _timer?.cancel();
         }
-        _resetFruit();
       }
     });
   }
 
   @override
   void dispose() {
-    _timer.cancel();
+    _timer?.cancel();
     super.dispose();
   }
 
@@ -56,12 +71,19 @@ class _FruitBoxGameState extends State<FruitBoxGame> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return GestureDetector(
-      onHorizontalDragUpdate: (details) {
-        setState(() {
-          boxX += details.delta.dx / width;
-          boxX = boxX.clamp(0.0, 1.0);
-        });
+      onTap: () {
+        if (!isPlaying) {
+          _startGame();
+        }
       },
+      onHorizontalDragUpdate: isPlaying
+          ? (details) {
+              setState(() {
+                boxX += details.delta.dx / width;
+                boxX = boxX.clamp(0.0, 1.0);
+              });
+            }
+          : null,
       child: Stack(
         children: [
           Positioned(
@@ -92,6 +114,19 @@ class _FruitBoxGameState extends State<FruitBoxGame> {
               style: const TextStyle(fontSize: 24, color: Colors.black),
             ),
           ),
+          if (!isPlaying)
+            Positioned.fill(
+              child: Container(
+                color: Colors.white.withOpacity(0.8),
+                child: Center(
+                  child: Text(
+                    gameOver ? 'Game Over\nTap to Restart' : 'Tap to Start',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 32, color: Colors.black),
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );
