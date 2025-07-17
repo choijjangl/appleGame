@@ -1,6 +1,6 @@
-# untitled
+# Fruit Box Game
 
-A new Flutter project.
+This Flutter mini-game displays a 17×10 grid of numbered apples. Drag on the screen to draw a box. If the apples captured inside add up to exactly **10**, the box turns red and releasing your finger removes those apples and awards one point per apple. A two‑minute gauge on the right counts down the remaining time, so clear as many apples as you can before it empties!
 
 ## Getting Started
 
