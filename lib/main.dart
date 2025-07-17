@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'apple_game.dart';
+import 'fruit_box_game.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const AppleGame(),
+      home: const FruitBoxGame(),
     );
   }
 }

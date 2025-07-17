@@ -1,6 +1,6 @@
-# untitled
+# Fruit Box
 
-A new Flutter project.
+A simple Flutter mini-game where you slide a box to catch falling fruit.
 
 ## Getting Started
 
