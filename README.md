@@ -1,6 +1,8 @@
-# Fruit Box
+# Fruit Box Game
 
-A simple Flutter mini-game where you slide a box to catch falling fruit.
+This Flutter mini-game challenges you to slide a wooden box left and right to
+catch shiny red apples as they fall from the top of the screen. Each apple you
+catch increases your score.
 
 ## Getting Started
 
